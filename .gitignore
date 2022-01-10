@@ -1,0 +1,11 @@
+.DS_Store
+*.exe
+*.test
+*.out
+bin/
+dist/
+.terraform/
+*.tfstate
+*.tfstate.backup
+.env
+coverage.out
