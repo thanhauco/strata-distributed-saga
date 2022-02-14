@@ -1,0 +1,1 @@
+# Strata Distributed Saga (2022)\n\nDistributed transaction orchestrator in Go on AWS.\n
