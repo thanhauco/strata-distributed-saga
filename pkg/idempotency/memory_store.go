@@ -44,3 +44,10 @@ func (m *MemoryStore) Complete(ctx context.Context, key, response string) error 
 	rec.Response = response
 	return nil
 }
+
+func (m *MemoryStore) Release(ctx context.Context, key string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	delete(m.records, key)
+	return nil
+}
