@@ -17,3 +17,7 @@ type Record struct {
 	CreatedAt time.Time    `json:"created_at"`
 	ExpiresAt int64        `json:"expires_at"`
 }
+
+func DefaultTTL() time.Duration {
+	return 24 * time.Hour
+}
