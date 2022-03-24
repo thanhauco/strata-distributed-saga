@@ -16,3 +16,6 @@ func NewDynamoStore(tableName string) *DynamoStore {
 func (d *DynamoStore) KeyHash(sagaID, stepName string) string {
 	return sagaID + ":" + stepName
 }
+
+// Interface compliance check
+var _ = GenerateKey
