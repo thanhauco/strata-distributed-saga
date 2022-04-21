@@ -32,3 +32,9 @@ func (m *MemoryOutbox) GetUnprocessed() []*OutboxRecord {
 	}
 	return unproc
 }
+
+func (m *MemoryOutbox) Reset() {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.records = m.records[:0]
+}
