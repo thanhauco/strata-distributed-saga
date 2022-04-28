@@ -21,3 +21,7 @@ type InventoryReservedEvent struct {
 	SKU         string `json:"sku"`
 	Quantity    int    `json:"quantity"`
 }
+
+func IsHighValueOrder(amount float64) bool {
+	return amount >= 5000.0
+}
