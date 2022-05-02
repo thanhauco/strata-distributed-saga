@@ -17,3 +17,7 @@ tf-plan:
 
 clean:
 	rm -rf $(BIN_DIR) *.out
+
+test-cover:
+	go test -coverprofile=coverage.out ./...
+	go tool cover -func=coverage.out
