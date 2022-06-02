@@ -25,3 +25,10 @@ func (s *Service) RefundPayment(ctx context.Context, sagaID string) error {
 	delete(s.reservations, sagaID)
 	return nil
 }
+
+func (s *Service) CapturePayment(ctx context.Context, sagaID string) error {
+	if _, exists := s.reservations[sagaID]; !exists {
+		return fmt.Errorf("no authorization found for saga %s", sagaID)
+	}
+	return nil
+}
