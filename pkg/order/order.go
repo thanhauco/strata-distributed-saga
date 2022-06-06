@@ -16,3 +16,10 @@ type Order struct {
 	Status     Status  `json:"status"`
 	Version    int     `json:"version"`
 }
+
+func (o *Order) CanTransitionTo(next Status) bool {
+	if o.Status == StatusCancelled {
+		return false
+	}
+	return true
+}
