@@ -23,3 +23,4 @@ func (o *Order) CanTransitionTo(next Status) bool {
 	}
 	return true
 }
+// Gofmt formatted\n
