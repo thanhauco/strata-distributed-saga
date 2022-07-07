@@ -36,3 +36,10 @@ func (s *StockService) Release(ctx context.Context, sku string, qty int) {
 	defer s.mu.Unlock()
 	s.stock[sku] += qty
 }
+
+func GetNearestWarehouse(postalCode string) string {
+	if len(postalCode) > 0 && postalCode[0] < '5' {
+		return "WH-EAST-1"
+	}
+	return "WH-WEST-1"
+}
