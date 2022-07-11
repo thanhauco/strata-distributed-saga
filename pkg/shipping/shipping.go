@@ -35,3 +35,5 @@ func (s *Service) Dispatch(ctx context.Context, orderID string) (*Shipment, erro
 func (s *Service) Cancel(ctx context.Context, orderID string) {
 	delete(s.shipments, orderID)
 }
+
+var SupportedCarriers = []string{"FEDEX", "UPS", "DHL"}
