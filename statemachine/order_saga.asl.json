@@ -1,0 +1,86 @@
+{
+  "Comment": "Strata Order Processing Distributed Saga State Machine (2022)",
+  "StartAt": "ReservePayment",
+  "States": {
+    "ReservePayment": {
+      "Type": "Task",
+      "Resource": "${payment_reserve_lambda_arn}",
+      "Retry": [
+        {
+          "ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "SagaFailed"
+        }
+      ],
+      "Next": "ReserveInventory"
+    },
+    "ReserveInventory": {
+      "Type": "Task",
+      "Resource": "${inventory_reserve_lambda_arn}",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "CompensatePayment"
+        }
+      ],
+      "Next": "DispatchShipping"
+    },
+    "DispatchShipping": {
+      "Type": "Task",
+      "Resource": "${shipping_dispatch_lambda_arn}",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "CompensateInventoryAndPayment"
+        }
+      ],
+      "Next": "SagaCompleted"
+    },
+    "CompensateInventoryAndPayment": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "ReleaseInventory",
+          "States": {
+            "ReleaseInventory": {
+              "Type": "Task",
+              "Resource": "${inventory_release_lambda_arn}",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "RefundPayment",
+          "States": {
+            "RefundPayment": {
+              "Type": "Task",
+              "Resource": "${payment_refund_lambda_arn}",
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "SagaFailed"
+    },
+    "CompensatePayment": {
+      "Type": "Task",
+      "Resource": "${payment_refund_lambda_arn}",
+      "Next": "SagaFailed"
+    },
+    "SagaCompleted": {
+      "Type": "Succeed"
+    },
+    "SagaFailed": {
+      "Type": "Fail",
+      "Cause": "Distributed transaction failed and compensations executed",
+      "Error": "SagaAbortedException"
+    }
+  }
+}
