@@ -1,0 +1,11 @@
+{
+  "Comment": "Inventory Restock Workflow",
+  "StartAt": "TriggerPurchaseOrder",
+  "States": {
+    "TriggerPurchaseOrder": {
+      "Type": "Pass",
+      "Result": "PO_DISPATCHED",
+      "End": true
+    }
+  }
+}
