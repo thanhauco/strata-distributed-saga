@@ -1,0 +1,15 @@
+{
+  "Comment": "Async Carrier Polling",
+  "StartAt": "WaitForCarrier",
+  "States": {
+    "WaitForCarrier": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "CheckStatus"
+    },
+    "CheckStatus": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}
