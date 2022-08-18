@@ -1,0 +1,25 @@
+{
+  "Comment": "Fraud Evaluation Branch",
+  "StartAt": "EvaluateRisk",
+  "States": {
+    "EvaluateRisk": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.amount",
+          "NumericGreaterThanEquals": 5000,
+          "Next": "ManualReview"
+        }
+      ],
+      "Default": "ApproveOrder"
+    },
+    "ManualReview": {
+      "Type": "Pass",
+      "End": true
+    },
+    "ApproveOrder": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}
