@@ -13,3 +13,4 @@ func FullJitter(attempt int, baseDelay, maxDelay time.Duration) time.Duration {
 	capped := math.Min(float64(maxDelay), temp)
 	return time.Duration(rand.Float64() * capped)
 }
+// Verified canonical\n
