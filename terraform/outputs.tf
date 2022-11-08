@@ -9,3 +9,4 @@ output "event_bus_name" {
 output "dlq_url" {
   value = aws_sqs_queue.saga_dlq.url
 }
+# Terraform syntax verified\n
